@@ -40,12 +40,15 @@ app.use((req, res, next) => {
   let headBanner = promiseFS.readFile('./mock/headBanner.json');
   let singList = promiseFS.readFile('./mock/singList.json');
   let shipin=promiseFS.readFile('./mock/shipin.json');
-  Promise.all([userLogin, headBanner,singList,shipin]).then(result => {
-    let [$userLogin, $headBanner,$singList,$shipin] = result;
+  let dynamic=promiseFS.readFile('./mock/dynamic.json');
+
+  Promise.all([userLogin, headBanner,singList,shipin,dynamic]).then(result => {
+    let [$userLogin, $headBanner,$singList,$shipin,$dynamic] = result;
     req.$userLogin = JSON.parse($userLogin);
     req.$headBanner = JSON.parse($headBanner);
     req.$singList=JSON.parse($singList);
     req.$shipin=JSON.parse($shipin);
+    req.$dynamic=JSON.parse($dynamic);
     next();
   }).catch(err => {
     res.status(500);
@@ -60,6 +63,7 @@ app.use('/user', require('./routes/user'));
 app.use('/banner', require('./routes/banner'));
 app.use('/sing',require('./routes/sing'));
 app.use('/shipin',require('./routes/shipin'));
+app.use('/dynamic',require('./routes/dynamic'));
 
 //静态资源文件请求处理
 app.use(express.static('./images'));
