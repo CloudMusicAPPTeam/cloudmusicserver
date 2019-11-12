@@ -7,17 +7,11 @@ let {
 //登陆
 route.post('/login', (req, res) => {
     //客户端传递信息
-    let {
-        account,
-        password
-    } = req.body
-    
-    let result = req.$userLogin.find(item => {
-        return (item.phone === account) && item.password === password;
-    });
-    
-    if (result) {
-        req.session.userID = result.userid;
+    let data = req.$userLogin;
+    if (data) {
+       
+        res.send(data)
+
         success(res, {
             code: 0,
             codeText: 'chenggong'

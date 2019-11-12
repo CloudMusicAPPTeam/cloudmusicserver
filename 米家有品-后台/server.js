@@ -38,11 +38,14 @@ app.use((req, res, next) => {
   }); */
   let userLogin = promiseFS.readFile('./mock/userLogin.json');
   let headBanner = promiseFS.readFile('./mock/headBanner.json');
-  Promise.all([userLogin, headBanner]).then(result => {
-    let [$userLogin, $headBanner] = result;
+  let singList = promiseFS.readFile('./mock/singList.json');
+  let shipin=promiseFS.readFile('./mock/shipin.json');
+  Promise.all([userLogin, headBanner,singList,shipin]).then(result => {
+    let [$userLogin, $headBanner,$singList,$shipin] = result;
     req.$userLogin = JSON.parse($userLogin);
     req.$headBanner = JSON.parse($headBanner);
-    
+    req.$singList=JSON.parse($singList);
+    req.$shipin=JSON.parse($shipin);
     next();
   }).catch(err => {
     res.status(500);
@@ -55,6 +58,8 @@ app.use((req, res, next) => {
 //请求的api符合/user的地址规则都进入指定的路由中
 app.use('/user', require('./routes/user'));
 app.use('/banner', require('./routes/banner'));
+app.use('/sing',require('./routes/sing'));
+app.use('/shipin',require('./routes/shipin'));
 
 //静态资源文件请求处理
 app.use(express.static('./images'));

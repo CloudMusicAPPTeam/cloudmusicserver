@@ -21,12 +21,4 @@ route.post('/list', (req, res) => {
         codeText: '获取失败'
     });
 });
-
-
-
-
-
-
-
-
 module.exports = route;
